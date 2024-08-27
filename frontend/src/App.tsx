@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 
 const App: React.FC = () => {
-  const encodedDfxIdentity = import.meta.env.VITE_ENCODED_DFX_IDENTITY || 'Not set';
+  const encodedDfxIdentity = import.meta.env.ENCODED_DFX_IDENTITY || 'Not set';
 
   return (
     <Container maxWidth="md">
