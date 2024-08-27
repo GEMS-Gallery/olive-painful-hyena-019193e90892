@@ -1,27 +1,21 @@
 import React from 'react';
 import { Container, Typography, Box, Paper } from '@mui/material';
 
-declare global {
-  interface Window {
-    PEM_CONTENT: string;
-  }
-}
-
 const App: React.FC = () => {
-  const pemContent = window.PEM_CONTENT || 'PEM content not available';
+  const envVars = JSON.stringify(import.meta.env, null, 2);
 
   return (
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          Identity PEM Display
+          Environment Variables Display
         </Typography>
         <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
           <Typography variant="h6" component="h2" gutterBottom>
-            PEM Content:
+            import.meta.env content:
           </Typography>
-          <Typography component="pre" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all' }}>
-            {pemContent}
+          <Typography component="pre" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', maxHeight: '400px', overflow: 'auto' }}>
+            {envVars}
           </Typography>
         </Paper>
       </Box>
