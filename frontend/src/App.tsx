@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Container, Typography, Button, Box, TextField, CircularProgress } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { useForm } from 'react-hook-form';
-import { backend } from 'declarations/backend';
 
 const App: React.FC = () => {
   const [fileContent, setFileContent] = useState<string>('');
@@ -10,29 +9,34 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { handleSubmit } = useForm();
 
-  const fetchFileContent = async () => {
+  const readFile = async () => {
     setLoading(true);
     setError('');
     try {
-      const result = await backend.read_file();
-      if ('ok' in result) {
-        setFileContent(result.ok);
-      } else {
-        setError(result.err);
-      }
+      const fileHandle = await window.showOpenFilePicker({
+        types: [
+          {
+            description: 'PEM Files',
+            accept: {
+              'application/x-pem-file': ['.pem'],
+            },
+          },
+        ],
+        multiple: false,
+      });
+      const file = await fileHandle[0].getFile();
+      const content = await file.text();
+      setFileContent(content);
     } catch (err) {
-      setError('An error occurred while fetching the file content.');
+      setError('An error occurred while reading the file.');
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    fetchFileContent();
-  }, []);
-
   const onSubmit = () => {
-    fetchFileContent();
+    readFile();
   };
 
   return (
@@ -64,7 +68,7 @@ const App: React.FC = () => {
           onClick={handleSubmit(onSubmit)}
           disabled={loading}
         >
-          {loading ? <CircularProgress size={24} /> : 'Refresh'}
+          {loading ? <CircularProgress size={24} /> : 'Read File'}
         </Button>
       </Box>
     </Container>
