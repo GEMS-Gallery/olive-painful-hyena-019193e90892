@@ -1,2 +1,8 @@
+type Result = 
+ variant {
+   err: text;
+   ok: text;
+ };
 service : {
+  processPrompt: (text) -> (Result);
 }
