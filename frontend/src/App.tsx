@@ -45,6 +45,9 @@ const App: React.FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Identity PEM File Reader
         </Typography>
+        <Typography variant="h6" component="h2" gutterBottom>
+          ANTHROPIC_API_KEY: {import.meta.env.VITE_ANTHROPIC_API_KEY || 'Not set'}
+        </Typography>
         <TextField
           fullWidth
           multiline
